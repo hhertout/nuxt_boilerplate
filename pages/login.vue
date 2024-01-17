@@ -2,8 +2,6 @@
 
 import {ref} from "vue";
 
-const env = useRuntimeConfig()
-
 const error = ref<string | null>(null)
 const pending = ref(false)
 
@@ -13,14 +11,14 @@ const passwordRef = ref('')
 const handleSubmit = async () => {
   pending.value = true
     try {
-      const data = await $fetch(`${env.public.API_BACKEND}/api/toto`, {
-        method: "POST",
-        body: {
+      const res = await $fetch("api/login", {
+        method: 'POST',
+        body: JSON.stringify({
           email: emailRef.value,
           password: passwordRef.value,
-        }
+        }),
+        credentials: "include",
       })
-      console.log(data)
       error.value = null
     } catch (err: any) {
       error.value = err.message

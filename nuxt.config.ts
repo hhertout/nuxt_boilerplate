@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       MY_VAR: process.env.MY_VAR,
-      API_BACKEND: process.env.API_BACKEND,
+      BACKEND_URL: process.env.BACKEND_URL,
     }
   },
   devtools: {enabled: true},
