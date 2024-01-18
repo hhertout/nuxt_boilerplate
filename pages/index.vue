@@ -1,9 +1,7 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
-import type {FormError, FormSubmitEvent} from "#ui/types";
-
-const localePath = useLocalePath()
+import type {FormError} from "#ui/types";
 
 const error = ref<string | null>(null)
 const pending = ref(false)
@@ -23,7 +21,7 @@ const validate = (state: any): FormError[] => {
 const handleSubmit = async () => {
   pending.value = true
   try {
-    await $fetch("api/login", {
+    const res = await fetch("api/login", {
       method: 'POST',
       body: JSON.stringify({
         email: state.email,
@@ -32,7 +30,7 @@ const handleSubmit = async () => {
       credentials: "include",
     })
     error.value = null
-    navigateTo("/admin")
+    if (res.status === 200) navigateTo("/admin", {replace: true})
   } catch (err: any) {
     error.value = err.message
   } finally {
@@ -44,9 +42,10 @@ const handleSubmit = async () => {
 <template>
   <UContainer class="w-screen h-screen flex justify-center items-center bg-container">
     <UCard>
-      <h1 class="px-4 text-xl font-extrabold">{{ $t('login')}}</h1>
+      <h1 class="px-4 text-xl font-extrabold">{{ $t('login') }}</h1>
       <UForm :validate="validate" :state="state" class="w-96 p-4" @submit="handleSubmit">
-        <div v-if="!pending">
+        <div v-if="pending">Login in...</div>
+        <div v-else>
           <UFormGroup :label="$t('email')" name="email">
             <UInput icon="i-heroicons-at-symbol" type="text" v-model="state.email"/>
           </UFormGroup>
@@ -59,15 +58,14 @@ const handleSubmit = async () => {
 
           <UButton type="submit" class="mt-6 w-full flex justify-center">Login</UButton>
         </div>
-        <div v-else>Login in...</div>
       </UForm>
     </UCard>
   </UContainer>
 </template>
 
 <style scoped>
-  .bg-container {
-    background-color: #F4D03F;
-    background-image: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);
-  }
+.bg-container {
+  background-color: #F4D03F;
+  background-image: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);
+}
 </style>
