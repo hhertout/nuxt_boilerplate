@@ -10,5 +10,12 @@ export default defineNuxtConfig({
   modules: [
     "@pinia/nuxt",
     '@nuxtjs/robots',
+    '@nuxt/ui',
+    '@nuxtjs/i18n'
   ],
+  i18n: {
+    vueI18n: './i18n.config.ts',
+    locales: ['en', 'fr'],
+    defaultLocale: 'en',
+  }
 })

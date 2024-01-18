@@ -1,11 +1,11 @@
 export default defineNuxtRouteMiddleware(async () => {
   if (process.client) return
   const headers = useRequestHeaders(['cookie'])
-  if(!headers) return navigateTo("/login")
+  if(!headers) return navigateTo("/")
   const res = await fetch(`${process.env.BACKEND_URL}/api/auth/check-cookie`, {
     headers,
     credentials: 'include',
   });
-  if (!res.ok) return navigateTo("/login")
+  if (!res.ok) return navigateTo("/")
   return
 })
