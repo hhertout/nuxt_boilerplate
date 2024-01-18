@@ -11,7 +11,6 @@ export default defineEventHandler(async (event) => {
     })
 
     const cookie = res.headers.getSetCookie()[0]
-
     appendResponseHeader(event, 'set-cookie', cookie)
     return await res.json()
   } catch

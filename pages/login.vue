@@ -11,7 +11,7 @@ const passwordRef = ref('')
 const handleSubmit = async () => {
   pending.value = true
     try {
-      const res = await $fetch("api/login", {
+      await $fetch("api/login", {
         method: 'POST',
         body: JSON.stringify({
           email: emailRef.value,
@@ -20,6 +20,7 @@ const handleSubmit = async () => {
         credentials: "include",
       })
       error.value = null
+      navigateTo("/admin")
     } catch (err: any) {
       error.value = err.message
     } finally {
