@@ -21,9 +21,10 @@ const menu = useMenu().value
       </ul>
     </div>
 
+    <!--    Popover Menu-->
     <ClientOnly>
       <UPopover class="z-10">
-        <UButton aria-label="Menu">
+        <UButton aria-label="Menu" trailing-icon="i-heroicons-chevron-down-20-solid">
           <Icon name="heroicons:bars-3-16-solid" size="20"/>
         </UButton>
         <template #panel>
@@ -62,6 +63,6 @@ const menu = useMenu().value
   height: 60px;
   overflow-y: hidden;
 
-  padding-inline: 1rem;
+  padding-inline: 2rem;
 }
 </style>

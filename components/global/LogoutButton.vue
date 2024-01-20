@@ -1,7 +1,15 @@
 <script setup lang="ts">
+const config = useRuntimeConfig().public
 
-const handleLogout = () => {
-  console.log("logout")
+const handleLogout = async () => {
+  try {
+    await $fetch(`${config.BACKEND_URL}/api/logout`, {
+      credentials: 'include',
+    })
+    return await navigateTo("/")
+  } catch(err) {
+    console.error(err)
+  }
 }
 
 </script>
