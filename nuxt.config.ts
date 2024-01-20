@@ -2,7 +2,6 @@
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      MY_VAR: process.env.MY_VAR,
       BACKEND_URL: process.env.BACKEND_URL,
     }
   },
