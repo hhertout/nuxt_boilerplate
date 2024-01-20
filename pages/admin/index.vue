@@ -1,10 +1,11 @@
 <script setup lang="ts">
 definePageMeta({middleware: ['auth']})
-
 </script>
 
 <template>
-  <h1>Admin panel</h1>
+  <NavigationBar/>
+
+  <h2>Hello</h2>
 </template>
 
 <style scoped>

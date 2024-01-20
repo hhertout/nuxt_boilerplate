@@ -7,7 +7,7 @@ useHead({title: `${useAppConfig().APP_NAME}| Login`})
 const error = ref<string | null>(null)
 const pending = ref(false)
 
-const local = useI18n()
+const locale = useI18n()
 
 const state = reactive({
   email: undefined,
@@ -34,8 +34,8 @@ const handleSubmit = async () => {
     })
     error.value = null
     if (res.status === 200) return await navigateTo("/admin")
-    else if (res.status === 400) error.value = local.t('invalidLoginData')
-    else if (res.status >= 500) error.value = local.t('serverError')
+    else if (res.status === 400) error.value = locale.t('invalidLoginData')
+    else if (res.status >= 500) error.value = locale.t('serverError')
   } catch (err: any) {
     error.value = err.message
   } finally {
@@ -68,7 +68,7 @@ const handleSubmit = async () => {
 
           <p v-if="error" class="text-sm text-red-600 text-center mt-3">{{ error }}</p>
 
-          <UButton type="submit" block class="mt-4">Login</UButton>
+          <UButton type="submit" block class="mt-4">{{ $t('login') }}</UButton>
         </UForm>
       </div>
     </UCard>
