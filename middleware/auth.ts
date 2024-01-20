@@ -1,11 +1,18 @@
 export default defineNuxtRouteMiddleware(async () => {
-  if (process.client) return
-  const headers = useRequestHeaders(['cookie'])
-  if(!headers) return navigateTo("/", { redirectCode: 301 })
-  const res = await fetch(`${process.env.BACKEND_URL}/api/auth/check-cookie`, {
+  const headers = useRequestHeaders(["cookie"]);
+  try {
+    const isAuth = await isAuthorized(headers);
+    if (!isAuth) return navigateTo("/");
+    return
+  } catch (err) {
+    return navigateTo("/");
+  }
+});
+
+const isAuthorized = async (headers: { cookie?: string }): Promise<boolean> => {
+  const res: { authorized: boolean } = await $fetch("/api/auth", {
     headers,
-    credentials: 'include',
+    credentials: "include",
   });
-  if (!res.ok) return navigateTo("/", { redirectCode: 301 })
-  return
-})
+  return res.authorized;
+};

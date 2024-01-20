@@ -1,10 +1,13 @@
 <script setup lang="ts">
-
 import {ref} from "vue";
 import type {FormError} from "#ui/types";
 
+useHead({title: `${useAppConfig().APP_NAME}| Login`})
+
 const error = ref<string | null>(null)
 const pending = ref(false)
+
+const local = useI18n()
 
 const state = reactive({
   email: undefined,
@@ -21,7 +24,7 @@ const validate = (state: any): FormError[] => {
 const handleSubmit = async () => {
   pending.value = true
   try {
-    const res = await fetch("api/login", {
+    const res = await fetch("/api/login", {
       method: 'POST',
       body: JSON.stringify({
         email: state.email,
@@ -30,7 +33,9 @@ const handleSubmit = async () => {
       credentials: "include",
     })
     error.value = null
-    if (res.status === 200) navigateTo("/admin", {replace: true})
+    if (res.status === 200) return await navigateTo("/admin")
+    else if (res.status === 400) error.value = local.t('invalidLoginData')
+    else if (res.status >= 500) error.value = local.t('serverError')
   } catch (err: any) {
     error.value = err.message
   } finally {
@@ -40,12 +45,19 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <UContainer class="w-screen h-screen flex justify-center items-center bg-container">
+  <div class="w-screen h-screen flex justify-center items-center bg-container">
     <UCard>
-      <h1 class="px-4 text-xl font-extrabold">{{ $t('login') }}</h1>
-      <UForm :validate="validate" :state="state" class="w-96 p-4" @submit="handleSubmit">
-        <div v-if="pending">Login in...</div>
-        <div v-else>
+      <div v-if="pending" class="flex flex-col justify-center items-center w-96">
+        <Icon size="40" name="heroicons:arrow-path-20-solid" class="animate-spin text-primary m-4"/>
+        <div class="text-center">{{ $t('loginIn') }}</div>
+      </div>
+
+      <div v-else>
+        <div class="flex justify-center items-center text-primary px-4">
+          <Icon name="heroicons:shield-check-20-solid" size="40"/>
+          <h1 class="px-2 text-2xl font-extrabold w-full">{{ $t('login') }}</h1>
+        </div>
+        <UForm :validate="validate" :state="state" class="w-96 p-4" @submit="handleSubmit">
           <UFormGroup :label="$t('email')" name="email">
             <UInput icon="i-heroicons-at-symbol" type="text" v-model="state.email"/>
           </UFormGroup>
@@ -54,13 +66,13 @@ const handleSubmit = async () => {
             <UInput icon="i-heroicons-lock-closed-16-solid" type="password" v-model="state.password"/>
           </UFormGroup>
 
-          <p v-if="error">{{ error }}</p>
+          <p v-if="error" class="text-sm text-red-600 text-center mt-3">{{ error }}</p>
 
-          <UButton type="submit" class="mt-6 w-full flex justify-center">Login</UButton>
-        </div>
-      </UForm>
+          <UButton type="submit" block class="mt-4">Login</UButton>
+        </UForm>
+      </div>
     </UCard>
-  </UContainer>
+  </div>
 </template>
 
 <style scoped>
