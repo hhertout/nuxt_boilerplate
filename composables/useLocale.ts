@@ -6,8 +6,8 @@ export const useLocale = () => {
      * Get the locale availableLocales from I18n array value
      */
     const localMapper = {
-      en: "🇬🇧",
-      fr: "🇫🇷",
+      en: "en",
+      fr: "fr",
     }
 
     return {locale, locales, localMapper}

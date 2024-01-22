@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import type {FormError} from "#ui/types";
+import NuxtLogo from "~/components/icons/NuxtLogo.vue";
 
 useHead({title: `${useAppConfig().APP_NAME}| Login`})
 
@@ -46,7 +47,11 @@ const handleSubmit = async () => {
 
 <template>
   <div class="w-screen h-screen flex justify-center items-center bg-container">
-    <UCard>
+    <UCard class="bg-gray-50">
+      <div class="w-full flex justify-center mb-6">
+        <NuxtLogo width="90" height="30" />
+      </div>
+
       <div v-if="pending" class="flex flex-col justify-center items-center w-96">
         <Icon size="40" name="heroicons:arrow-path-20-solid" class="animate-spin text-primary m-4"/>
         <div class="text-center">{{ $t('loginIn') }}</div>
@@ -54,8 +59,7 @@ const handleSubmit = async () => {
 
       <div v-else>
         <div class="flex justify-center items-center text-primary px-4">
-          <Icon name="heroicons:shield-check-20-solid" size="40"/>
-          <h1 class="px-2 text-2xl font-extrabold w-full">{{ $t('login') }}</h1>
+          <h1 class="text-2xl font-extrabold w-full">{{ $t('login') }}</h1>
         </div>
         <UForm :validate="validate" :state="state" class="w-96 p-4" @submit="handleSubmit">
           <UFormGroup :label="$t('email')" name="email">
@@ -77,7 +81,8 @@ const handleSubmit = async () => {
 
 <style scoped>
 .bg-container {
-  background-color: #F4D03F;
-  background-image: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);
+  background-color: white;
+  /*background-color: #F4D03F;
+  background-image: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);*/
 }
 </style>

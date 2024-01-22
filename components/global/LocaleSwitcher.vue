@@ -21,15 +21,15 @@ const changeLocale = (locale) => {
     >
       <div
           v-if="locale === currentLocale"
-          class="flex justify-center items-center bg-gray-100 p-2 rounded hover:bg-gray-200"
+          class="text-sm flex justify-center items-center bg-gray-100 p-2 rounded hover:bg-gray-200"
       >
-        <Icon :name="localeMapper[locale]" size="18"/>
+        {{ localeMapper[locale] }}
       </div>
       <div
           v-else
-          class="flex justify-center items-center p-2 rounded hover:bg-gray-200"
+          class="text-sm flex justify-center items-center p-2 rounded hover:bg-gray-200"
       >
-        <Icon :name="localeMapper[locale]" size="18"/>
+        {{ localeMapper[locale] }}
       </div>
     </NuxtLink>
   </div>
